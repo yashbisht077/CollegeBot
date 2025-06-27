@@ -1,0 +1,28 @@
+# GEHU Bhimtal Campus – Student Life & Clubs
+
+## Core Values
+- Inclusivity, innovation, community, and holistic growth.
+
+## Major Student Clubs
+- **Technical Club / WeCode Club**: Hosts coding workshops, hackathons, Django sessions, bootcamps.
+- **Cultural Club (Grafest)**: Organizes dance, music, fashion shows, and regional cultural events.
+- **Literary Club (Kavyanjali)**: Hosts poetry, debates, writing activities and promotes Indian heritage.
+- **Art & Craft Club (PaperTech)**: Focused on sustainability and crafting using biodegradable/skilled materials.
+- **Photography Club**: Supports budding photographers and organizes exhibitions.
+- **Eco Club**: Drives environmental awareness and green campus initiatives.
+- **Sports Club**: Manages inter/intra-campus tournaments in football, cricket, basketball, etc.
+- **NCC & NSS**: Offers training, parades, cleanliness drives, blood donation camps, and social services.
+- **Humanitarian Club**: Community-focused events like workshops, cleanliness, and animal welfare.
+- **Youth Parliament Society**: Promotes leadership, mock parliaments, policy discussions.
+- **Debating Society (Debsoc)**: Enhances public speaking, research, and argumentation skills.
+
+## 🏆 Flagship Events
+- **Grafest**: Three-day cultural and technical fest with over 20k+ student participation.
+- **Hackathons & Code & Coffee Meetups**: Frequent coding events and social learning.
+- **Workshops & Bootcamps**: DSA, web-dev, workshops with industry experts.
+- **Annual Coding & Technical Fest**: Showcases technical innovations and projects.
+
+## 🌐 Campus Engagement
+- Celebrity talks, guest lectures, and TEDx-style events.
+- Student trips, trekking, hiking each semester.
+- Community Radio stations supporting co-circular outreach.

@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+*.sqlite3
+*.env
+.env
+*.db
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
+
+# System
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# LLaMA model files
+*.gguf
+*.bin
+*.safetensors
+*.pt
+
+# Build artifacts (from llama.cpp)
+llama.cpp/build/
+llama.cpp/CMakeFiles/
+llama.cpp/CMakeCache.txt
+llama.cpp/Makefile
+llama.cpp/cmake_install.cmake
+
+# FAISS index (if saved later)
+*.index
+
+# Gradio runtime
+gradio_cached_examples/
+
+# Memory and chat logs
+memory.txt
+chats/chat_*.txt
+
+# Compiled / backup files
+*.bak
+*.old
+*.out

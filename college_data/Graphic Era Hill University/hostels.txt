@@ -1,0 +1,16 @@
+# GEHU Bhimtal Campus – Hostel & Mess Fees (2024–2025)
+
+All hostels at GEHU Bhimtal are **Non-AC** and available for both boys and girls. Fees vary based on room type.
+
+## Hostel Room Types and Fees
+
+| Room Type        | Hostel & Mess Fee | Security Fee | Laundry Fee | Total (Approx.) |
+|------------------|-------------------|--------------|-------------|-----------------|
+| 4-Seater Room    | ₹85,000           | ₹5,000       | ₹4,750       | ₹94,750         |
+| 3-Seater Room    | ₹75,000           | ₹5,000       | ₹4,750       | ₹84,750         |
+| 2-Seater Room    | ₹95,000           | ₹5,000       | ₹4,750       | ₹1,04,750       |
+
+## Notes:
+- **Laundry charges** of ₹4,750 are not included in the hostel & mess fees.
+- Hostel security deposit is **₹5,000** (refundable).
+- All hostels are on a **Non-AC** basis.
