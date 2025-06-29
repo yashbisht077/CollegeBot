@@ -13,7 +13,7 @@ MODEL_PATH = "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf"
 MAX_TOKENS = 200
 HISTORY_DEPTH = 3
 
-embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+embed_model = SentenceTransformer("./embedding_models/all-MiniLM-L6-v2")
 
 def load_documents():
     docs = []

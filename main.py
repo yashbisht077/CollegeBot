@@ -6,7 +6,6 @@ from datetime import datetime
 
 DATA_DIR = "college_data"
 MEMORY_FILE = "memory.txt"
-EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
 LLAMA_RUN = "llama.cpp/build/bin/llama-run"
 MODEL_PATH = "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf"
 MAX_TOKENS = 200
@@ -35,19 +34,19 @@ def save_memory_line(line):
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 print("[INFO] Loading embedding model...")
-embed_model = SentenceTransformer(EMBED_MODEL_NAME)
+embed_model = SentenceTransformer("./embedding_models/all-MiniLM-L6-v2")
 
 print("[INFO] Loading documents...")
 documents = load_documents() + load_memory()
 print(f"[INFO] Loaded {len(documents)} chunks.")
 
 print("[INFO] Embedding and indexing...")
-embeddings = embed_model.encode(documents)
-index = faiss.IndexFlatL2(embeddings.shape[1])
+embeddings = embed_model.encode(documents, normalize_embeddings=True)
+index = faiss.IndexFlatIP(embeddings.shape[1])
 index.add(embeddings)
 
 def retrieve_context(query, k=3):
-    query_vec = embed_model.encode([query])
+    query_vec = embed_model.encode([query], normalize_embeddings=True)
     D, I = index.search(query_vec, k)
     return "\n---\n".join([documents[i] for i in I[0]])
 
