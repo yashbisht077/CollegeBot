@@ -1,0 +1,425 @@
+package com.example.collegeassistant
+
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+
+data class ChatRequest(val message: String, val lang: String)
+data class ChatResponse(val response: String)
+
+interface ChatApi {
+    @retrofit2.http.POST("chat")
+    suspend fun sendMessage(@retrofit2.http.Body request: ChatRequest): retrofit2.Response<ChatResponse>
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
+
+    private lateinit var speechRecognizer: SpeechRecognizer
+    private lateinit var tts: TextToSpeech
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private var ttsReady = false
+
+    private val recognizedText = mutableStateOf("")
+    private val backendResponse = mutableStateOf("")
+    private val selectedLang = mutableStateOf("en")
+    private val backendUrl = mutableStateOf("")
+    private val showUrlDialog = mutableStateOf(false)
+    private val isListening = mutableStateOf(false)  // Mic listening status
+    private var isWaitingForResponse = false         // New flag: waiting for backend response
+
+    private val requestMicPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (!granted) {
+            Toast.makeText(this, "Microphone permission is required", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requestMicPermission.launch(Manifest.permission.RECORD_AUDIO)
+
+        sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        backendUrl.value = sharedPreferences.getString("backend_url", "") ?: ""
+        if (backendUrl.value.isBlank()) showUrlDialog.value = true
+
+        initSpeechRecognizer()
+        tts = TextToSpeech(this, this)
+
+        setContent {
+            MainScreen()
+        }
+    }
+
+    override fun onDestroy() {
+        speechRecognizer.destroy()
+        tts.shutdown()
+        super.onDestroy()
+    }
+
+    override fun onInit(status: Int) {
+        ttsReady = status == TextToSpeech.SUCCESS
+        updateTTSLanguage(selectedLang.value)
+    }
+
+    private fun updateTTSLanguage(lang: String) {
+        if (!ttsReady) return
+        val locale = when (lang) {
+            "hi" -> Locale.forLanguageTag("hi-IN")
+            else -> Locale.forLanguageTag("en-US")
+        }
+        tts.language = locale
+    }
+
+    private fun restartListening(delayMillis: Long = 500) {
+        // Only restart listening if not waiting for backend response
+        if (isWaitingForResponse) {
+            isListening.value = false
+            return
+        }
+
+        isListening.value = false
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                putExtra(
+                    RecognizerIntent.EXTRA_LANGUAGE,
+                    if (selectedLang.value == "hi") "hi-IN" else "en-US"
+                )
+                putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+                putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak now...")
+            }
+            try {
+                speechRecognizer.startListening(intent)
+                isListening.value = true
+            } catch (e: Exception) {
+                Toast.makeText(this, "Failed to start listening: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                isListening.value = false
+            }
+        }, delayMillis)
+    }
+
+    private fun initSpeechRecognizer() {
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
+            Toast.makeText(this, "Speech recognition not available", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this).apply {
+            setRecognitionListener(object : RecognitionListener {
+                override fun onReadyForSpeech(params: Bundle?) {
+                    isListening.value = true
+                }
+
+                override fun onBeginningOfSpeech() {}
+
+                override fun onRmsChanged(rmsdB: Float) {}
+
+                override fun onBufferReceived(buffer: ByteArray?) {}
+
+                override fun onEndOfSpeech() {
+                    isListening.value = false
+                }
+
+                override fun onError(error: Int) {
+                    val retryErrors = listOf(
+                        SpeechRecognizer.ERROR_NO_MATCH,
+                        SpeechRecognizer.ERROR_SPEECH_TIMEOUT,
+                        SpeechRecognizer.ERROR_CLIENT
+                    )
+
+                    val errorMessage = when (error) {
+                        SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
+                        SpeechRecognizer.ERROR_CLIENT -> "Client side error"
+                        SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Missing microphone permission"
+                        SpeechRecognizer.ERROR_NETWORK -> "Network error"
+                        SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout"
+                        SpeechRecognizer.ERROR_NO_MATCH -> "Didn't catch that, please try again"
+                        SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "Recognizer is busy"
+                        SpeechRecognizer.ERROR_SERVER -> "Server error"
+                        SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"
+                        else -> "Unknown error"
+                    }
+
+                    runOnUiThread {
+                        Toast.makeText(this@MainActivity, "Speech error: $errorMessage", Toast.LENGTH_SHORT).show()
+                    }
+
+                    // Retry only if NOT waiting for backend response
+                    if (!isWaitingForResponse && error in retryErrors) {
+                        restartListening(700) // retry after a slight delay
+                    } else {
+                        isListening.value = false
+                    }
+                }
+
+                override fun onResults(results: Bundle?) {
+                    val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                    matches?.firstOrNull()?.let { onSpeechResult(it) }
+
+                    // Do NOT auto restart listening here to avoid loop
+                    isListening.value = false
+                }
+
+                override fun onPartialResults(partialResults: Bundle?) {}
+
+                override fun onEvent(eventType: Int, params: Bundle?) {}
+            })
+        }
+    }
+
+    @Composable
+    fun MainScreen() {
+        val context = LocalContext.current
+        var manualInput by remember { mutableStateOf("") } // State for manual input box
+
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("College Assistant") },
+                    actions = {
+                        TextButton(onClick = { showUrlDialog.value = true }) {
+                            Text("Change URL")
+                        }
+                    }
+                )
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                    Text("Language:")
+                    Spacer(Modifier.width(8.dp))
+                    LanguageDropdown(selectedLang.value) { lang ->
+                        selectedLang.value = lang
+                        updateTTSLanguage(lang)
+                    }
+                    Spacer(Modifier.width(16.dp))
+                    if (isListening.value) {
+                        Text("🎤 Listening...", color = MaterialTheme.colorScheme.primary)
+                    } else {
+                        Text("🛑 Not listening", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+
+                Text("Recognized Text:")
+                Text(recognizedText.value)
+
+                Text("Backend Response:")
+                Text(backendResponse.value)
+
+                Button(
+                    enabled = backendUrl.value.isNotBlank() && !isListening.value && !isWaitingForResponse,
+                    onClick = { startVoiceInput() }
+                ) {
+                    Text("Start Voice Input")
+                }
+
+                Spacer(Modifier.height(24.dp))
+
+                // New manual input section
+                Text("Or type your message:")
+                OutlinedTextField(
+                    value = manualInput,
+                    onValueChange = { manualInput = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text("Enter your message here") },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+                    maxLines = 3
+                )
+                Button(
+                    enabled = manualInput.isNotBlank() && backendUrl.value.isNotBlank() && !isWaitingForResponse,
+                    onClick = {
+                        recognizedText.value = manualInput
+                        sendMessageToBackend(manualInput)
+                        manualInput = ""
+                    },
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    Text("Send")
+                }
+            }
+        }
+
+        if (showUrlDialog.value) {
+            EnterUrlDialog(
+                initialUrl = backendUrl.value,
+                onDismiss = { showUrlDialog.value = false },
+                onSave = { urlInput ->
+                    val fixed = validateAndFixUrl(urlInput)
+                    if (fixed != null) {
+                        backendUrl.value = fixed
+                        sharedPreferences.edit { putString("backend_url", fixed) }
+                        showUrlDialog.value = false
+                        Toast.makeText(context, "Backend URL saved", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Invalid URL", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        }
+    }
+
+    private fun startVoiceInput() {
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
+            Toast.makeText(this, "Speech recognition not supported", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (!isListening.value && !isWaitingForResponse) {
+            restartListening(0)
+        }
+    }
+
+    private fun onSpeechResult(text: String) {
+        recognizedText.value = text
+        sendMessageToBackend(text)
+    }
+
+    private fun sendMessageToBackend(text: String) {
+        if (backendUrl.value.isBlank()) {
+            Toast.makeText(this, "Please set backend URL first", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        isWaitingForResponse = true  // Mark that backend call is in progress
+        isListening.value = false    // Stop listening
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val retrofit = Retrofit.Builder()
+                    .baseUrl(backendUrl.value)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+
+                val api = retrofit.create(ChatApi::class.java)
+                val response = api.sendMessage(ChatRequest(text, selectedLang.value))
+
+                if (response.isSuccessful) {
+                    val reply = response.body()?.response ?: "No response"
+                    launch(Dispatchers.Main) {
+                        backendResponse.value = reply
+                        speakText(reply)
+                        isWaitingForResponse = false // Backend done, allow listening again
+                    }
+                } else {
+                    launch(Dispatchers.Main) {
+                        backendResponse.value = "Error: ${response.code()} ${response.message()}"
+                        isWaitingForResponse = false
+                    }
+                }
+            } catch (e: Exception) {
+                launch(Dispatchers.Main) {
+                    backendResponse.value = "Exception: ${e.localizedMessage ?: "Unknown error"}"
+                    isWaitingForResponse = false
+                }
+            }
+        }
+    }
+
+    private fun speakText(text: String) {
+        if (ttsReady) {
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "utteranceId")
+        }
+    }
+
+    @Composable
+    fun EnterUrlDialog(
+        initialUrl: String,
+        onDismiss: () -> Unit,
+        onSave: (String) -> Unit
+    ) {
+        var text by remember { mutableStateOf(initialUrl) }
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text("Enter Backend URL") },
+            text = {
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    placeholder = { Text("https://1234abcd.ngrok.app/") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri)
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { onSave(text) }) {
+                    Text("Save")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    @Composable
+    fun LanguageDropdown(
+        selectedLang: String,
+        onLangSelected: (String) -> Unit
+    ) {
+        var expanded by remember { mutableStateOf(false) }
+        val options = listOf("en", "hi")
+
+        Box {
+            TextButton(onClick = { expanded = true }) {
+                Text(if (selectedLang == "hi") "Hindi" else "English")
+            }
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                options.forEach { lang ->
+                    DropdownMenuItem(
+                        text = { Text(if (lang == "hi") "Hindi" else "English") },
+                        onClick = {
+                            onLangSelected(lang)
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    private fun validateAndFixUrl(url: String): String? {
+        var fixed = url.trim()
+        if (!fixed.startsWith("http://") && !fixed.startsWith("https://")) return null
+        if (!fixed.endsWith("/")) fixed += "/"
+        return fixed
+    }
+}

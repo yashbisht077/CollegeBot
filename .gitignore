@@ -1,4 +1,6 @@
+# ===================
 # Python
+# ===================
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -14,16 +16,23 @@ ENV/
 env/
 .venv/
 
-# System
+# ===================
+# System Files
+# ===================
 .DS_Store
 Thumbs.db
 
-# IDE
+# ===================
+# IDEs
+# ===================
 .vscode/
 .idea/
 *.swp
+*.iml
 
-# LLaMA model files
+# ===================
+# LLaMA / ML Files
+# ===================
 *.gguf
 *.bin
 *.safetensors
@@ -36,7 +45,7 @@ llama.cpp/CMakeCache.txt
 llama.cpp/Makefile
 llama.cpp/cmake_install.cmake
 
-# FAISS index (if saved later)
+# FAISS index
 *.index
 
 # Gradio runtime
@@ -50,3 +59,36 @@ chats/chat_*.txt
 *.bak
 *.old
 *.out
+
+# ===================
+# Android Studio
+# ===================
+
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local SDK and properties
+local.properties
+
+# Android captures and logs
+captures/
+.externalNativeBuild/
+
+# Keystore and signing
+*.jks
+*.keystore
+
+# Google Services (optional, based on sensitivity)
+google-services.json
+fabric.properties
+
+# Jetpack Compose cache
+.idea/.compose-cache/
+
+# NDK
+.cxx/
+
+# Crashlytics
+crashlytics-build.properties

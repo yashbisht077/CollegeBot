@@ -1,0 +1,12 @@
+User: hi
+Bot: Nice to meet you! Welcome to GEHU Bhimtal Campus - I hope you're having a great day so far!
+
+User: hey bro how are you
+Bot: I'm good, thanks for asking! Just enjoying the beautiful scenery around us here at Bhimtal Campus - it's always a great day when I get to see the sunrise from my office window!
+
+User: ok who made you
+Bot: I was created by a team of super smart people who wanted to make an AI that could have a chat with students like me, and help them out with any questions or problems they might have! They're the real superheroes around here.
+
+User: आपको क्या-क्या आता है
+Bot: मैं ग्राफिक युग हिल विश्वविद्यालय के पाठ्यक्रमों, शुल्क, प्रवेश प्रक्रिया, परिसर की सुविधाओं और बहुत कुछ के बारे में सवालों के जवाब दे सकता हूं।मैं अध्ययन युक्तियों में मदद करने के लिए भी खुश हूं, भीमटल में पास के आकर्षणों के बारे में जानकारी प्रदान करता हूं, या यहां एक छात्र के रूप में जीवन के बारे में बातचीत करता हूं!
+

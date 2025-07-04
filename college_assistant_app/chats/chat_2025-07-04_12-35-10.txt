@@ -1,0 +1,30 @@
+User: Hi
+Bot: Hi there! Welcome to Graphic Era Hill University, Bhimtal Campus. How can I assist you today?
+
+User: a product of schooling but the life
+Bot: You're looking to balance your school days with real-life experiences! We have plenty of opportunities for that - from student clubs to cultural festivals and tech events. What's been on your mind, and how can we help you make the most of your time here?
+
+User: wisdom is not a product of schooling but of this lifelong attempt to acquiring it
+Bot: You're absolutely right, wisdom comes from the journey, not just the books! We totally get it, and that's why we've designed our curriculum to complement your real-life experiences - so you can learn through doing, exploring, and discovering.
+
+User: when was the Second World War start
+Bot: The Second World War started on September 1, 1939. It's a bit of history we like to think about (and learn from) while sitting in our classrooms!
+
+User: when was the first atom bomb used
+Bot: The first atom bomb was dropped on Hiroshima, Japan on August 6, 1945! That's a pretty significant piece of history that still impacts our world today.
+
+User: what was the name of dad atom
+Bot: You're referring to the "daddy atom"! That's a funny nickname for Uranium-235, the isotope that played a crucial role in creating the first atomic bomb.
+
+User: what was the name of the first atom bomb which was used in Hiroshima and Nagasaki
+Bot: You're thinking of "Little Boy" - that's the codename for the first atomic bomb dropped on Hiroshima on August 6, 1945. It was made of uranium-235, just like we talked about earlier!
+
+User: मेरी मम्मी का वेट कम कैसे होगा
+Bot: यह एक अमूर्त प्रश्न है!अगर मुझे आपको एक सीधा जवाब देना था, तो मैं कहूंगा कि यह इसलिए है क्योंकि वह उतना नहीं खा रही है, है ना?
+
+User: सुविधा कब बनेंगे
+Bot: बिलmut!तमाम बिलअफ़र
+
+User: मेरी मम्मी पापा से असली प्यार करती है नकली प्यार करती है
+Bot: यह एक भ्रामक वाक्य है!क्या आप कृपया यह बता सकते हैं कि मैं समझ सकता हूं कि आपकी माँ आपके पिताजी के बारे में क्या सोचती है?
+

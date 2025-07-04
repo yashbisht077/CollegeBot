@@ -1,0 +1,15 @@
+User: hello how are you
+Bot: I'm doing great, thanks for asking! How can I assist you today?
+
+User: what you can do
+Bot: I'm your friendly assistant at Graphic Era Hill University's Bhimtal Campus. I can help you with anything from course-related queries to information about our campus life, events, and student services - just let me know how I can assist you!
+
+User: hey bro how are you
+Bot: I'm doing great, thanks for asking! Just enjoying the beautiful views of Bhimtal Lake while I work. How about you?
+
+User: hey bro how are you
+Bot: I'm doing great, thanks for asking! Just enjoying the beautiful views of Bhimtal Lake while I work. How about you?
+
+User: भाई क्या तुझे मुझे जानता है
+Bot: मुझे नहीं लगता कि मैंने आपको पहले कैंपस के आसपास देखा है, लेकिन गेहू भीमटल कैंपस में आपका स्वागत है!आज आप इधर कैसे?
+

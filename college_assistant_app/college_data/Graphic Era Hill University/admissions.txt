@@ -1,0 +1,71 @@
+# GEHU Bhimtal – Admissions Overview
+
+## 🔑 Eligibility Criteria
+
+### Undergraduate Programs (UG)
+- **B.Tech**: Passed 10+2 with Physics, Chemistry, Mathematics; minimum **50–60% aggregate** (exact % may vary by specialization).
+- **BCA**: 10+2 passed with Mathematics; **≥50%** aggregate.
+- **B.Sc (IT)**: 10+2 with Mathematics; **≥50%**.
+- **B.Sc (Nursing)**: 10+2 with PCB and English; **≥50%**, age between 17–35 years as per regulations.
+- **BBA**, **B.Com (Hons)**: 10+2 in any stream; **≥55–60%**.
+- **Diploma programs**: Passed 10th; minimal eligibility as per course.
+
+### Postgraduate Programs (PG)
+- **MBA**: Bachelor’s degree (3+ years); **≥50%** aggregate; aptitude test (CAT/MAT/XAT/CMAT/NMAT) + personal interview.
+- **MCA**: Bachelor’s degree in BCA/B.Sc IT/Computer Science/B.Voc; **≥50%** aggregate; merit-based or via UPTU-SEE.
+- **M.Tech**, **M.Sc**: Bachelor’s degree relevant to the field; admission as per program-specific criteria.
+
+### Doctoral Programs (Ph.D)
+- Bachelor’s & Master’s in relevant discipline (like engineering, sciences, commerce, arts).
+
+---
+
+## 📝 Admission Mode
+
+- **Merit-based admission**: Based on qualifying exam marks (10+2 or Bachelor’s).
+- **Entrance-based admission**:
+  - B.Tech: Consideration of **JEE Main** or **GEHU’s own merit**.
+  - MBA: Entrance tests (CAT/MAT/XAT/CMAT/NMAT), followed by interview.
+  - MCA: UPTU-SEE or merit-based selection.
+- No interviews for majority of UG admissions.
+
+---
+
+## 💵 Application Process
+
+1. **Choose your desired program** on the official website.
+2. **Apply online/offline**, pay application fee: **₹1,500**.
+3. **Upload necessary documents** (10th/12th mark sheet, ID, etc.).
+4. **Review** and submit application.
+5. **Pay program/course fees** after acceptance.
+6. Receive **digital offer/seat allotment letter**.
+
+- Merit list published after document verification and fee payment.
+- No external agents involved — apply only via official school channels.
+- Walk-in admission available at on-campus or regional centers.
+
+---
+
+## 🎓 Scholarships & Fee Waivers
+
+- **Merit-based scholarships** available for all programs.
+- Additional concessions:
+  - **25%** fee waiver for Uttarakhand domicile.
+  - **10%** for female candidates.
+  - **5%** for wards of defence personnel.
+
+---
+
+## 🗓️ Important Dates
+
+- Admission for 2025 session is now open.
+- Typical **application deadline**: around **30 June** each year.
+
+---
+
+This file will allow your assistant to accurately answer:
+- What are the admission criteria for B.Tech/MBA?
+- How do I apply and what is the application fee?
+- Are there scholarships or concessions available?
+
+Would you like to add a **documents checklist** or **contact information** next?

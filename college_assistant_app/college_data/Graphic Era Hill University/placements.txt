@@ -1,0 +1,21 @@
+# GEHU Bhimtal – Top Placement Records
+
+| Student Name        | Branch                          | Company Name                   | Salary Package         |
+|---------------------|----------------------------------|--------------------------------|------------------------|
+| Sanya Pandey        | Computer Science & Engineering  | Amazon                         | 47.88 LPA              |
+| Mukesh Negi         | Computer Science & Engineering  | Amazon                         | 47.88 LPA              |
+| Karan Matiyali      | Computer Science & Engineering  | Visa                           | 32.88 LPA              |
+| Mayank Joshi        | Computer Science & Engineering  | Visa                           | 32.88 LPA              |
+| Rupal Tyagi         | Computer Science & Engineering  | Axteria                        | 24.00 LPA              |
+| Rakshita Suyal      | Computer Science & Engineering  | AB InBev GCC                   | 12.00 LPA (fixed + bonus) |
+| Aastha Bisht        | Business Analytics              | JARO Education                 | 12.16 LPA              |
+| Aayush Joshi        | MCA                             | TATA Healthcare                | 12.00 LPA              |
+| Kanchan Bhatt       | Computer Science (General)      | National Australian Bank (NAB)| 11.00 LPA              |
+| Aastha Bisht        | Business Analytics              | JARO Education                 | 10.50 LPA              |
+| Nikita Paneru       | Finance                         | BNY Mellon                     | 10.00 LPA              |
+| Sanjana Pilkhwal    | BBA                             | JARO Education                 | 10.50 LPA              |
+| Sofia Tomar         | BBA                             | JARO Education                 | 10.50 LPA              |
+| Riya Pal            | Computer Science & Engineering  | Infosys                        | 9.50 LPA               |
+| Diksha Bargali      | Computer Science & Engineering  | Infosys                        | 9.50 LPA               |
+| Neeraj Koshyari     | Computer Science & Engineering  | Infosys                        | 9.50 LPA               |
+| Nitish Kumar Mandal | Computer Science & Engineering  | Infosys                        | 9.50 LPA               |

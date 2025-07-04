@@ -1,0 +1,6 @@
+User: hi
+Bot: Hey! Welcome to Graphic Era Hill University, Bhimtal Campus. How can I help you today?
+
+User: tell me about Graphic Era
+Bot: We're super proud of what we've achieved here at Graphic Era! Our university has come a long way since 1996 when it started as the Graphic Era Institute of Technology, but now we're recognized as a Deemed-to-be-University in India, and we're always pushing the boundaries of innovation and excellence.
+
